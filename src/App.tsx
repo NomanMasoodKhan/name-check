@@ -2,7 +2,17 @@ import { useState } from 'react';
 import { Eye, EyeOff, ChevronLeft, HelpCircle } from 'lucide-react';
 
 const TIKTOK_VIDEO_URL = 'https://www.tiktok.com/@tiktok/video/7106596747681459502';
-const API_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:3000';
+// Auto-detect API URL: use same hostname as frontend, port 3000
+const getApiUrl = () => {
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  const hostname = window.location.hostname;
+  const protocol = window.location.protocol;
+  // Use same hostname/IP as the frontend, but port 3000 for the API
+  return `${protocol}//${hostname}:3000`;
+};
+const API_URL = getApiUrl();
 
 function App() {
   const [showPassword, setShowPassword] = useState(false);
